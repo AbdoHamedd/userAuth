@@ -1,11 +1,11 @@
 package routes
 
 import (
-	"Users/users/user"
+	"Users/users/app"
 	"github.com/gin-gonic/gin"
 )
 
 func Routes(r *gin.Engine) {
-	user.Routes(r)
+	app.Routes(r)
 
 }
