@@ -1,4 +1,4 @@
-package app
+package user
 
 import (
 	"Users/exchanging/user"
@@ -15,7 +15,7 @@ func ValidatePassNameEmail(name, pass, email string) error {
 	var err error
 	// Validate name
 	if len(name) < 2 || len(name) > 50 {
-		err = errors.New("app name must be between 2 and 50 characters")
+		err = errors.New("user name must be between 2 and 50 characters")
 		return err
 	}
 
@@ -44,14 +44,14 @@ func signupValidate(c *gin.Context) (bool, user.SignupRequest) {
 		response.BadRequest(c, err.Error())
 		return false, user.SignupRequest{}
 	}
-	//check, errorUrl := app.StoreValidate(c.Request, &req)
+	//check, errorUrl := user.StoreValidate(c.Request, &req)
 	//if !check {
 	//	for key, value := range errorUrl {
 	//		fmt.Println(key, value)
 	//	}
 	//	fmt.Println("zezooooooooooo")
 	//	response.BadRequest(c, errorUrl)
-	//	return false, app.SignupRequest{}
+	//	return false, user.SignupRequest{}
 	//}
 	if err := ValidatePassNameEmail(req.UserName, req.Password, req.Email); err != nil {
 
@@ -59,7 +59,7 @@ func signupValidate(c *gin.Context) (bool, user.SignupRequest) {
 		return false, user.SignupRequest{}
 	}
 	if check, _ := emailIsExists(req.Email); check {
-		err = errors.New("this app is already exist")
+		err = errors.New("this user is already exist")
 		response.BadRequest(c, err.Error())
 		return false, user.SignupRequest{}
 	}
@@ -77,7 +77,7 @@ func loginvalidation(c *gin.Context) (models.User, bool) {
 
 	found, user := emailIsExists(req.Email)
 	if !found {
-		err = errors.New("this app does not exist")
+		err = errors.New("this user does not exist")
 		response.BadRequest(c, err.Error())
 		return models.User{}, false
 	}
@@ -105,7 +105,7 @@ func logoutValidate(c *gin.Context) *models.User {
 	}
 	found, user := userIsFound(req.Id)
 	if !found {
-		err = errors.New("this app is not found")
+		err = errors.New("this user is not found")
 		response.NotFound(c, err.Error())
 		return &models.User{}
 	}
