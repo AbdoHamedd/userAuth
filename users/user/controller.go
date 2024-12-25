@@ -2,6 +2,7 @@ package user
 
 import (
 	"Users/response"
+	"Users/transform"
 	"github.com/gin-gonic/gin"
 )
 
@@ -11,8 +12,8 @@ func signup(c *gin.Context) {
 		return
 	}
 	user := signupServices(req)
-
-	response.Created(c, user)
+	userTransform := transform.UserTransformSignup(&user)
+	response.Created(c, userTransform)
 }
 
 func login(c *gin.Context) {
@@ -21,7 +22,9 @@ func login(c *gin.Context) {
 		return
 	}
 	loginServices(&user)
-	response.Ok(c, user)
+	userTransform := transform.UserTransformLogin(&user)
+
+	response.Ok(c, userTransform)
 }
 
 func logout(c *gin.Context) {
